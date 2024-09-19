@@ -12,7 +12,7 @@ L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
     attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
 }).addTo(map);
 
-let apiKey = 'AIzaSyCEhsnCONNwmXa_EhQ-IfkHmsqI-wAPX2E'
+
 
 
 /* function geocode(data) {
