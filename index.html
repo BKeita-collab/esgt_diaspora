@@ -14,6 +14,20 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-csv/1.0.21/jquery.csv.min.js"
     integrity="sha512-Y8iWYJDo6HiTo5xtml1g4QqHtl/PO1w+dmUpQfQSOTqKNsMhExfyPN2ncNAe9JuJUSKzwK/b6oaNPop4MXzkwg=="
     crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+<!-- Leaflet.js search plugin CSS -->
+<script src="https://unpkg.com/leaflet-search@2.9.8/dist/leaflet-search.src.js"></script>
+<link rel="stylesheet" href="https://unpkg.com/leaflet-search@2.9.8/dist/leaflet-search.min.css" />
+
+<!-- Leaflet.js markers cluster plugin -->
+<script src="https://unpkg.com/leaflet.markercluster/dist/leaflet.markercluster-src.js"></script>
+<link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster/dist/MarkerCluster.css" />
+<link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster/dist/MarkerCluster.Default.css" />
+
+<!-- Integrate my css script -->
+<link rel="stylesheet" href= "style.css">
+  
+<!-- Integration of the js script -->
   <script src="script.js" type="text/javascript" defer></script>
 
 
@@ -24,7 +38,17 @@
   <!-- <h3>Load Google Sheet Data as CSV with jQuery</h3> -->
 
   <!-- The div where the map will be rendered -->
+  <div id="sidebar">
+    <h3>Liste des membres</h3>
+    <ul id="memberList">
+        <!-- Members will be listed here -->
+    </ul>
+  </div>
+
   <div id="map" style="height: 600px;"></div>
+
+
+
 
 </body>
 

@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Leaflet Map with Search</title>
+
+    <!-- Leaflet CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+
+    <!-- Leaflet Search CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet-search@2.9.8/dist/leaflet-search.min.css" />
+
+    <style>
+        #map { height: 500px; width: 100%; }
+    </style>
+</head>
+<body>
+
+<div id="map"></div>
+
+<!-- Leaflet JS -->
+<script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+
+<!-- Leaflet Search JS -->
+<script src="https://unpkg.com/leaflet-search@2.9.8/dist/leaflet-search.src.js"></script>
+
+<script>
+    // Initialize the map
+    var map = L.map('map').setView([51.505, -0.09], 2); // World view
+
+    // Add OpenStreetMap tile layer
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        maxZoom: 19,
+    }).addTo(map);
+
+    // Create a layer group to hold all the markers
+    var markersLayer = L.layerGroup().addTo(map);
+
+    // Example marker data with names and coordinates
+    var data = [
+        { name: "John Doe", lat: 51.505, lon: -0.09 },
+        { name: "Jane Smith", lat: 40.7128, lon: -74.006 },
+        { name: "Alex Johnson", lat: 48.8566, lon: 2.3522 },  // Paris
+        { name: "Emily Brown", lat: 34.0522, lon: -118.2437 }  // Los Angeles
+    ];
+
+    // Loop through the data and create markers
+    data.forEach(function(entry) {
+        var marker = L.marker([entry.lat, entry.lon])
+            .bindPopup(`<b>${entry.name}</b>`);  // Display name in popup
+        
+        // Add a 'name' property to the marker object for search
+        marker.options.name = entry.name;
+
+        // Add marker to the markersLayer
+        markersLayer.addLayer(marker);
+
+        // Log each marker to verify the name property
+        console.log('Added marker:', marker.options.name);
+    });
+
+    // Add search control to the map
+    var searchControl = new L.Control.Search({
+        layer: markersLayer,  // Search within the markersLayer
+        propertyName: 'name',  // Search by the 'name' property
+        moveToLocation: function(latlng, title, map) {
+            map.setView(latlng, 14);  // Zoom to marker when found
+        }
+    });
+
+    // Add the search control to the map
+    map.addControl(searchControl);
+
+    // Debug: Check if the search control is added
+    console.log('Search control initialized:', searchControl);
+</script>
+
+</body>
+</html>

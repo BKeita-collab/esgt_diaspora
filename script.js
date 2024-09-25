@@ -13,24 +13,10 @@ L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
 }).addTo(map);
 
 
+let markersLayer = L.layerGroup();
+let markers = L.markerClusterGroup();
 
-
-/* function geocode(data) {
-    let apiUrl = 'https://maps.googleapis.com/maps/api/geocode/json?address=' + encodeURIComponent(address) + '&key=' + apiKey;
-    
-    
-    let response = UrlFetchApp.fetch(apiUrl);
-    let data = JSON.parse(response.getContentText());
-    
-    if (data.status == 'OK') {
-      let location = data.geometry.location;
-      return [location.lat, location.lng];
-    } else {
-      Logger.log("Geocoding failed: " + data.status);
-      return ['Not found', 'Not found'];
-    }
-} */
-
+map.addLayer(markersLayer);
 
 // Function to handle the Google Sheet data and place markers on the map
 function showInfo(data) {
@@ -48,33 +34,60 @@ function showInfo(data) {
           // ADD YOUR CODE HERE
  // Loop through each row of the sheet data
  data.forEach(function(member) {
-    console.log('Processing member:', member);  // Log each member data to see what's being processed
-    /* if (member.LatHome == "" || member.LonHome == "" || member.LatCorp == "" || member.LonCorp == ""){
-
-        let LatHome = geocode(member.Adresse)[0]
-        let LonHome = geocode(member.Adresse)[1]
-        let LatCorp = geocode(member.AdresseEntreprise)[0]
-        let LonCorp = geocode(member.AdresseEntreprise)[1]
-
-    } */
+    // console.log('Processing member:', member);  // Log each member data to see what's being processed
 
         let lat = parseFloat(member.LatHome);   // Convert latitude to a floating-point number
         let lon = parseFloat(member.LonHome);  // Convert longitude to a floating-point number
     
-    console.log(lat)
-    console.log(lon)
+    // console.log(lat)
+    // console.log(lon)
     // Check if the latitude and longitude are valid numbers
     if (!isNaN(lat) && !isNaN(lon)) {
         // Add a marker to the map for each member's location
-        L.marker([lat, lon]).addTo(map)
-            .bindPopup(member.Nom + ' - ' + member.Adresse);  // Display the member's name and role on clicking the marker
+        let marker = L.marker([lat, lon])
+            .bindPopup(`
+               <b> ${member.Nom + ' ' + member.Prenom  } </b> <br>
+               <b> ${member.Poste + ' chez ' + member.Entreprise} </b> <br>
+               <b> Promo  </b> ${member.Date_diplomation}  <br>
+               <b> Contact: </b> ${member.email}  <br>
+                
+            
+            
+            `);  // Display the member's name and role on clicking the marker
+
+        let listItem = `<li onclick="map.setView([${lat}, ${lon}], 14)">${member.Nom}</li>`;
+        document.getElementById('memberList').innerHTML += listItem;
+
+        marker.options.name = member.Nom;
+        
+        // add markers layers for search options
+        markersLayer.addLayer(marker)
+
+        // add markers clusters for clusters options
+        markers.addLayer(marker)
     }
+    console.log('markers layer is: ', markersLayer)
 });
 },
 
 
         })
+        
       }
+
+      let searchControl = new L.Control.Search({
+        layer: markersLayer,  // Here, you specify the layer to search within
+        propertyName: 'name',  // Field to search by (e.g., name or another property)
+        moveToLocation: function(latlng,title, map) {
+            map.setView(latlng, 14); // Zoom in when a result is found
+        }
+    });  
+    
+    // add markers clusters
+    map.addLayer(markers)
+    // Add the search control to the map
+    map.addControl(searchControl);
+    
 
       // Call the init function when the page loads
       window.addEventListener('DOMContentLoaded', showInfo);

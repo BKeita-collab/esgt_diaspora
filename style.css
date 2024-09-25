@@ -1,0 +1,33 @@
+
+/* Flexbox to align sidebar and map side by side */
+body {
+	display: flex;
+	margin: 0;
+	height: 100vh;
+}
+
+#sidebar {
+	width: 300px; /* Adjust the sidebar width as needed */
+	padding: 15px;
+	background-color: #f8f9fa;
+	overflow-y: auto; /* Allows scrolling if content is longer */
+}
+
+#map {
+	flex-grow: 1; /* The map takes up remaining space */
+	height: 100%;
+}
+
+/* Optional: Add some styling for the member list */
+#memberList {
+	list-style: none;
+	padding: 0;
+}
+
+#memberList li {
+	margin-bottom: 10px;
+	padding: 10px;
+	background-color: #fff;
+	border-radius: 5px;
+	box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
