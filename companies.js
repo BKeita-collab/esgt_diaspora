@@ -1,16 +1,33 @@
+document.documentElement.classList.add('ontouchstart' in window ? 'touch' : 'no-touch');
+
 const sheetId = "1MfGjhr7cJbvxpPZ9H5kYzrvjj73-MujS_FgwKuUHxmU";
 const sheetName = encodeURIComponent("BDD_Entreprise");
 const sheetURL = `https://docs.google.com/spreadsheets/d/${sheetId}/gviz/tq?tqx=out:csv&sheet=${sheetName}`;
 console.log('Sheet URL:', sheetURL); // Debug log
 
 // Initialize map
-const map = L.map('map').setView([51.505, -0.09], 2);
+const map = L.map('map', {
+    center: [46.603354, 1.888334],
+    zoom: 6,
+    zoomControl: false, // We'll add it manually in a better position for mobile
+    tap: true // Enable tap handler for touch devices
+});
 L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
     attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
 }).addTo(map);
 
+L.control.zoom({
+    position: 'topright'
+}).addTo(map);
+
 let markersLayer = L.layerGroup();
-let markers = L.markerClusterGroup();
+let markers = L.markerClusterGroup({
+    disableClusteringAtZoom: 7,
+    spiderfyOnMaxZoom: true,
+    showCoverageOnHover: false,
+    zoomToBoundsOnClick: true,
+    maxClusterRadius: 30
+});
 map.addLayer(markersLayer);
 
 function processCompanies(data) {

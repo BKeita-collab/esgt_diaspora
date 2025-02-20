@@ -1906,3 +1906,168 @@ footer {
     color: #64748b;
     font-size: 0.9rem;
 }
+
+/* Base Mobile-First Styles */
+#wrapper {
+    display: flex;
+    flex-direction: column;
+    height: auto;
+    gap: 1rem;
+    padding: 1rem;
+}
+
+#sidebar {
+    width: 100%;
+    max-height: 200px;
+    overflow-y: auto;
+    border-radius: 8px;
+    background: white;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+#map {
+    height: 60vh;
+    width: 100%;
+    border-radius: 8px;
+    z-index: 1;
+}
+
+/* Filter Section Mobile Styles */
+.title-container {
+    padding: 1rem;
+}
+
+.filter-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    padding: 0.5rem;
+}
+
+.filter-buttons select,
+.filter-buttons button {
+    width: 100%;
+    padding: 0.75rem;
+    font-size: 1rem;
+    border-radius: 6px;
+}
+
+/* Stats Grid Mobile Styles */
+.stats-summary {
+    padding: 1rem;
+}
+
+.stats-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1rem;
+}
+
+.stat-card {
+    padding: 1rem;
+}
+
+/* Bottom Section Mobile Styles */
+.bottom-section {
+    padding: 1.5rem 1rem;
+}
+
+.bottom-content {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+    text-align: center;
+}
+
+/* Media Queries */
+@media (min-width: 768px) {
+    #wrapper {
+        flex-direction: row;
+    }
+
+    #sidebar {
+        width: 300px;
+        max-height: 70vh;
+    }
+
+    #map {
+        flex: 1;
+        height: 70vh;
+    }
+
+    .filter-buttons {
+        flex-direction: row;
+        flex-wrap: wrap;
+    }
+
+    .filter-buttons select,
+    .filter-buttons button {
+        width: auto;
+    }
+
+    .stats-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+
+    .bottom-content {
+        grid-template-columns: repeat(3, 1fr);
+        text-align: left;
+    }
+}
+
+/* Navigation Mobile Styles */
+@media (max-width: 767px) {
+    nav {
+        padding: 0.5rem;
+    }
+
+    .nav-links {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 0.5rem;
+        margin-top: 0.5rem;
+    }
+
+    .nav-links a {
+        padding: 0.5rem 0.75rem;
+        font-size: 0.9rem;
+    }
+
+    /* Improve touch targets */
+    #companyList li a {
+        padding: 0.75rem;
+        display: block;
+    }
+
+    /* Improve map controls for touch */
+    .leaflet-touch .leaflet-control-zoom a {
+        width: 44px;
+        height: 44px;
+        line-height: 44px;
+    }
+
+    .leaflet-control-search .search-input {
+        height: 44px;
+        padding: 0 1rem;
+        font-size: 1rem;
+    }
+}
+
+/* Fix iOS Safari 100vh issue */
+@supports (-webkit-touch-callout: none) {
+    #map {
+        height: 60vh;
+        height: -webkit-fill-available;
+    }
+}
+
+/* Improve popup readability on mobile */
+.leaflet-popup-content {
+    width: 260px !important;
+    font-size: 0.9rem;
+}
+
+.leaflet-popup-content-wrapper {
+    padding: 0;
+}
