@@ -1,80 +1,59 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Leaflet Map with Search</title>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Présentation de notre équipe</title>
 
-    <!-- Leaflet CSS -->
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
-
-    <!-- Leaflet Search CSS -->
-    <link rel="stylesheet" href="https://unpkg.com/leaflet-search@2.9.8/dist/leaflet-search.min.css" />
-
-    <style>
-        #map { height: 500px; width: 100%; }
-    </style>
+  <!-- Integrate my css script -->
+<link rel="stylesheet" href= "../style.css">
 </head>
+
 <body>
 
-<div id="map"></div>
+    <!-- Navbar -->
+    <div class="navbar">
+        <a href="../index.html" class="navbar-brand">ESGT Diaspora</a>
+        <div class="navbar-links">
+            <a href="../index.html">Home</a>
+            <div class="dropdown">
+                <button class="dropbtn">About the Association</button>
+                <div class="dropdown-content">
+                    <a href="mission.html">Our Mission</a>
+                    <a href="history.html">History</a>
+                    <a href="team.html">Our Team</a>
+                </div>
+            </div>
+            <a href="companies.html">Companies Map</a>
+            <a href="jobs.html">Job Offers</a>
+            <a href="activities.html">Activities</a>
+        </div>
+    </div>
+  
+     <!-- Main container -->
 
-<!-- Leaflet JS -->
-<script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+     <div class="team-container">
+      <!-- Navigation buttons for switching members -->
+      <button class="prev-btn" onclick="prevMember()"><i class="fas fa-chevron-left"></i></button>
 
-<!-- Leaflet Search JS -->
-<script src="https://unpkg.com/leaflet-search@2.9.8/dist/leaflet-search.src.js"></script>
+      <!-- Member details section -->
+      <div class="team-member">
+          <img src="https://st.depositphotos.com/1049680/59429/i/450/depositphotos_594291064-stock-photo-young-arab-man-smiling-confident.jpg" alt="Member Photo" id="member-photo">
+          <div class="member-info">
+              <h2 id="member-name">John Doe</h2>
+              <p id="member-experience">John is an experienced civil engineer with over 10 years in the industry. He has worked on numerous topography projects across various regions.</p>
+          </div>
+      </div>
 
-<script>
-    // Initialize the map
-    var map = L.map('map').setView([51.505, -0.09], 2); // World view
+      <!-- Navigation buttons for switching members -->
+      <button class="next-btn" onclick="nextMember()"><i class="fas fa-chevron-right"></i></button>
+  </div>
 
-    // Add OpenStreetMap tile layer
-    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-        maxZoom: 19,
-    }).addTo(map);
-
-    // Create a layer group to hold all the markers
-    var markersLayer = L.layerGroup().addTo(map);
-
-    // Example marker data with names and coordinates
-    var data = [
-        { name: "John Doe", lat: 51.505, lon: -0.09 },
-        { name: "Jane Smith", lat: 40.7128, lon: -74.006 },
-        { name: "Alex Johnson", lat: 48.8566, lon: 2.3522 },  // Paris
-        { name: "Emily Brown", lat: 34.0522, lon: -118.2437 }  // Los Angeles
-    ];
-
-    // Loop through the data and create markers
-    data.forEach(function(entry) {
-        var marker = L.marker([entry.lat, entry.lon])
-            .bindPopup(`<b>${entry.name}</b>`);  // Display name in popup
-        
-        // Add a 'name' property to the marker object for search
-        marker.options.name = entry.name;
-
-        // Add marker to the markersLayer
-        markersLayer.addLayer(marker);
-
-        // Log each marker to verify the name property
-        console.log('Added marker:', marker.options.name);
-    });
-
-    // Add search control to the map
-    var searchControl = new L.Control.Search({
-        layer: markersLayer,  // Search within the markersLayer
-        propertyName: 'name',  // Search by the 'name' property
-        moveToLocation: function(latlng, title, map) {
-            map.setView(latlng, 14);  // Zoom to marker when found
-        }
-    });
-
-    // Add the search control to the map
-    map.addControl(searchControl);
-
-    // Debug: Check if the search control is added
-    console.log('Search control initialized:', searchControl);
-</script>
+  <!-- Include a JavaScript file -->
+  <script src="test.js" type="text/javascript"></script>
 
 </body>
-</html>
+  
+  </html>

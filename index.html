@@ -1,57 +1,43 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-  <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<!-- Leaflet.js CSS -->
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
-  <!-- Leaflet.js JavaScript -->
-  <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script> 
-  <script src="https://code.jquery.com/jquery-3.6.3.min.js"
-    integrity="sha256-pvPw+upLPUjgMXY0G+8O0xUf+/Im1MZjXxxgOcBQBXU=" crossorigin="anonymous"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-csv/1.0.21/jquery.csv.min.js"
-    integrity="sha512-Y8iWYJDo6HiTo5xtml1g4QqHtl/PO1w+dmUpQfQSOTqKNsMhExfyPN2ncNAe9JuJUSKzwK/b6oaNPop4MXzkwg=="
-    crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-
-<!-- Leaflet.js search plugin CSS -->
-<script src="https://unpkg.com/leaflet-search@2.9.8/dist/leaflet-search.src.js"></script>
-<link rel="stylesheet" href="https://unpkg.com/leaflet-search@2.9.8/dist/leaflet-search.min.css" />
-
-<!-- Leaflet.js markers cluster plugin -->
-<script src="https://unpkg.com/leaflet.markercluster/dist/leaflet.markercluster-src.js"></script>
-<link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster/dist/MarkerCluster.css" />
-<link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster/dist/MarkerCluster.Default.css" />
-
-<!-- Integrate my css script -->
-<link rel="stylesheet" href= "style.css">
-  
-<!-- Integration of the js script -->
-  <script src="script.js" type="text/javascript" defer></script>
-
-
-  <title>Load Google Sheet Data as CSV with jQuery</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login Page</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="login.js" defer></script>
 </head>
-
 <body>
-  <!-- <h3>Load Google Sheet Data as CSV with jQuery</h3> -->
+    <nav>
+        <div class="nav-logo">
+            <a href="my pages/about.html">
+                <img src="picture/Logo_ESGTD.JPG" alt="ESGT Diaspora">
+            </a>
+        </div>
+        <!-- ...rest of nav... -->
+    </nav>
 
-  <!-- The div where the map will be rendered -->
-  <div id="sidebar">
-    <h3>Liste des membres</h3>
-    <ul id="memberList">
-        <!-- Members will be listed here -->
-    </ul>
-  </div>
+    <div class="container">
+        <h1>Welcome to Our Website</h1>
+        <form id="loginForm" class="form">
+            <label for="username">Username:</label>
+            <input type="text" id="username" name="username" required>
 
-  <div id="map" style="height: 600px;"></div>
+            <label for="password">Password:</label>
+            <input type="password" id="password" name="password" required>
 
+            <button type="submit">Login</button>
+        </form>
+        <p id="error-message" class="error-message"></p>
+    </div>
 
-
-
+    <div class="bottom-section">
+        <div class="bottom-content">
+            <div class="bottom-logo">
+                <img src="picture/Logo_ESGTD.JPG" alt="ESGT Diaspora Logo">
+                <!-- ...rest of bottom section... -->
+            </div>
+        </div>
+    </div>
 </body>
-
 </html>
-
-
