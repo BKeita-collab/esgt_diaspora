@@ -8,8 +8,19 @@ const sheetId = "1MfGjhr7cJbvxpPZ9H5kYzrvjj73-MujS_FgwKuUHxmU"
 const sheetName = encodeURIComponent("BDD_ESGTD");
 const sheetURL = `https://docs.google.com/spreadsheets/d/${sheetId}/gviz/tq?tqx=out:csv&sheet=${sheetName}`;
 
-// Initialize the Leaflet map, centered on the world with a default zoom level of 2
-const map = L.map('map').setView([51.505, -0.09], 1);
+// Update map initialization with better defaults
+const map = L.map('map', {
+    center: [46.603354, 1.888334], // Center of France
+    zoom: 6,
+    minZoom: 2,
+    maxZoom: 18,
+    zoomControl: false,
+    tap: true
+}).on('load', function() {
+    setTimeout(() => {
+        map.invalidateSize();
+    }, 100);
+});
 
 // Add the OpenStreetMap tile layer to the map (background map imagery)
 L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
@@ -144,6 +155,13 @@ function showInfo(data) {
 
             addMarkersAndList(data);
             setupFilterListeners(data);
+
+            // Force map refresh after loading data
+            setTimeout(() => {
+                map.invalidateSize();
+                // Center map on France
+                map.setView([46.603354, 1.888334], 6);
+            }, 100);
         },
         error: function(xhr, status, error) {
             console.error('Error loading data:', error);
@@ -466,3 +484,10 @@ map.addControl(searchControl);
 
 // Call the init function when the page loads
 window.addEventListener('DOMContentLoaded', showInfo);
+
+// Add resize handler at the end of the file
+window.addEventListener('resize', () => {
+    if (map) {
+        map.invalidateSize();
+    }
+});

@@ -268,6 +268,13 @@ style.textContent = `
 `;
 document.head.appendChild(style);
 
+// Add resize handler
+window.addEventListener('resize', function() {
+    if (map) {
+        map.invalidateSize();
+    }
+});
+
 // Initialize the map when the page loads
 $.ajax({
     type: "GET",
