@@ -255,13 +255,12 @@ p {
 /* Sidebar */
 #sidebar {
     width: 100%;
-    height: 200px;
-    overflow-y: auto;
+    height: 300px; /* Increased height */
+    padding: 1.5rem;
     background: white;
     border-radius: 8px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    z-index: 1;
-    padding: 1rem;
+    overflow-y: auto;
 }
 
 #sidebar h3 {
@@ -417,6 +416,29 @@ footer {
     }
 }
 
+@media (max-width: 767px) {
+    #wrapper {
+        flex-direction: column;
+        height: auto;
+        padding: 1rem;
+        gap: 1rem;
+    }
+
+    #sidebar {
+        height: 350px; /* Taller on mobile */
+        width: 100%;
+    }
+
+    #map {
+        height: 400px;
+        width: 100%;
+    }
+
+    .member-item, .company-item {
+        padding: 1rem;
+    }
+}
+
 @media (max-width: 480px) {
     /* Header Content */
     .hero-content h1 {
@@ -504,38 +526,15 @@ footer {
     }
 }
 
+/* Tablet-specific adjustments */
+@media (min-width: 768px) and (max-width: 1024px) {
+    #sidebar {
+        width: 350px;
+    }
+}
+
 /* Fix for iOS Safari 100vh issue */
 @supports (-webkit-touch-callout: none) {
-    #wrapper {
-        height: -webkit-fill-available;
-    }
-
-    #map {
-        height: -webkit-fill-available;
-    }
-}
-
-/* CSS of the About page  */
-
-/* General Styling */
-body {
-    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    color: #2d3748;
-}
-
-/* Hero Section */
-.hero-section {
-    background: url('https://www.google.com/imgres?q=african%20diaspora%20connexion&imgurl=https%3A%2F%2Fstatic.wixstatic.com%2Fmedia%2Fc70296_27071a2210ee4ec3b1891b3b491a0f07~mv2.png%2Fv1%2Ffill%2Fw_280%2Ch_242%2Cal_c%2Clg_1%2Cq_85%2Cenc_avif%2Cquality_auto%2Fc70296_27071a2210ee4ec3b1891b3b491a0f07~mv2.png&imgrefurl=https%3A%2F%2Fwww.africadiasporaconnection.org%2F&docid=ssfPwKYja7KxlM&tbnid=FGTsZI8QrvzY7M&vet=12ahUKEwii36HUmMOKAxVhUaQEHdqPFVkQM3oECBgQAA..i&w=280&h=242&hcb=2&ved=2ahUKEwii36HUmMOKAxVhUaQEHdqPFVkQM3oECBgQAA') no-repeat center center/cover;
-    background-color: white;
-    color: grey;
-    text-align: center;
-    padding: 100px 20px;
-}
-
-.hero-content {
     max-width: 800px;
     margin: 0 auto;
 }
@@ -2068,4 +2067,88 @@ footer {
 
 .leaflet-popup-content-wrapper {
     padding: 0;
+}
+
+/* Sidebar and List Styles */
+#sidebar {
+    width: 100%;
+    height: 300px; /* Increased height */
+    padding: 1.5rem;
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    overflow-y: auto;
+}
+
+#memberList, #companyList {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    gap: 1rem;
+    display: flex;
+    flex-direction: column;
+}
+
+.member-item, .company-item {
+    padding: 1rem;
+    background: #f8fafc;
+    border-radius: 6px;
+    transition: all 0.2s ease;
+    cursor: pointer;
+}
+
+/* Desktop Layout */
+@media (min-width: 768px) {
+    #wrapper {
+        flex-direction: row;
+        gap: 1.5rem;
+        padding: 1.5rem;
+        height: calc(100vh - 180px);
+    }
+
+    #sidebar {
+        width: 400px; /* Increased width */
+        height: 100%;
+        overflow-y: auto;
+    }
+
+    #map {
+        flex: 1;
+        height: 100%;
+    }
+
+    .member-item, .company-item {
+        padding: 1.25rem;
+    }
+}
+
+/* Member/Company Item Hover Effects */
+.member-item:hover, .company-item:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+    background: white;
+}
+
+.member-item.active, .company-item.active {
+    border-left: 4px solid #2563eb;
+    background: white;
+}
+
+/* Scrollbar Styling */
+#sidebar::-webkit-scrollbar {
+    width: 8px;
+}
+
+#sidebar::-webkit-scrollbar-track {
+    background: #f1f5f9;
+    border-radius: 4px;
+}
+
+#sidebar::-webkit-scrollbar-thumb {
+    background: #cbd5e1;
+    border-radius: 4px;
+}
+
+#sidebar::-webkit-scrollbar-thumb:hover {
+    background: #94a3b8;
 }
