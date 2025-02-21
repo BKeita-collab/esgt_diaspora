@@ -1,7 +1,7 @@
 document.documentElement.classList.add('ontouchstart' in window ? 'touch' : 'no-touch');
 
 const sheetId = "1MfGjhr7cJbvxpPZ9H5kYzrvjj73-MujS_FgwKuUHxmU";
-const sheetName = encodeURIComponent("BDD_Entreprise");
+const sheetName = encodeURIComponent("BDD_Entreprises");
 const sheetURL = `https://docs.google.com/spreadsheets/d/${sheetId}/gviz/tq?tqx=out:csv&sheet=${sheetName}`;
 console.log('Sheet URL:', sheetURL); // Debug log
 
@@ -37,51 +37,51 @@ function processCompanies(data) {
         const positions = [
             { 
                 type: 'Stage_IG3', 
-                company: member.Entreprise_stage_IG3, 
-                ville: member.Ville_Stage_IG3,
-                location: member.Loc_Stage_IG3,
-                contact: member.Contact_Stage_IG3
+                company: member['Entreprise stage IG3'], 
+                ville: member['Ville Stage IG3'],
+                location: member['Loc_Stage_IG3'],
+                contact: member['Contact Stage IG3']
             },
             { 
                 type: 'Stage_IG4', 
-                company: member.Entreprise_Stage_IG4, 
-                ville: member.Ville_Stage_IG4,
-                location: member.Loc_Stage_IG4,
-                contact: member.Contact_IG4
+                company: member['Entreprise Stage IG4'], 
+                ville: member['Ville Stage IG4'],
+                location: member['Loc_Stage_IG4'],
+                contact: member['Contact Stage IG4']
             },
             { 
                 type: 'TFE', 
-                company: member.Stage_TFE, 
-                ville: member.Ville_Stage_TFE,
-                location: member.Loc_Stage_TFE,
-                contact: member.Contact_TFE
+                company: member['Stage TFE'], 
+                ville: member['Ville Stage TFE'],
+                location: member['Loc_TFE'],
+                contact: member['Contact Stage TFE']
             },
             { 
                 type: 'Emploi_1', 
-                company: member.Entreprise_1, 
-                ville: member.Ville_Entreprise_1,
-                location: member.Loc_Entreprise_1,
-                contact: member.Contact_Entreprise_1
+                company: member['Entreprise 1'], 
+                ville: member['Ville Entreprise 1'],
+                location: member['Loc_Entreprise_1'],
+                contact: member['Contact Entreprise 1']
             },
             { 
                 type: 'Emploi_2', 
-                company: member.Entreprise_2, 
-                ville: member.Ville_Entreprise_2,
-                location: member.Loc_Entreprise_2,
-                contact: member.Contact_Entreprise_2
+                company: member['Entreprise 2'], 
+                ville: member['Ville Entreprise 2'],
+                location: member['Lon_Entreprise_2'], // Note: This seems to be a typo in the sheet header
+                contact: member['Contact Entreprise 2']
             },
             { 
                 type: 'Emploi_3', 
-                company: member.Entreprise_3, 
-                ville: member.Ville_Entreprise_3,
-                location: member.Loc_Entreprise_3,
-                contact: member.Contact_Entreprise_3
+                company: member['Entreprise 3'], 
+                ville: member['Ville Entreprise 3'],
+                location: null, // No location column for Entreprise 3
+                contact: member['Contact Entreprise 3']
             },
             { 
                 type: 'Emploi_Actuel', 
-                company: member.Entreprise_Actuelle, 
-                ville: member.Ville_Entreprise_Actuelle,
-                location: member.Loc_Entreprise_Actuelle,
+                company: member['Entreprise Actuelle'], 
+                ville: member['Ville Entreprise Actuelle'],
+                location: member['Loc_Entreprise_Actuelle'],
                 contact: null
             }
         ];
@@ -122,45 +122,30 @@ function processCompanies(data) {
 }
 
 function addCompanyMarkersAndList(companies, filters = {}) {
+    // Clear existing markers
     markersLayer.clearLayers();
     markers.clearLayers();
     document.getElementById('companyList').innerHTML = '';
 
+    // Create bounds for zooming
+    const bounds = L.latLngBounds();
+    let hasMarkers = false;
+
+    // Filter and add markers
     companies.forEach(company => {
         if (!matchesFilters(company, filters)) return;
 
         let marker = L.marker([company.lat, company.lon])
-            .bindPopup(`
-                <div class="company-popup">
-                    <div class="name">${company.name}</div>
-                    <div class="location">${company.ville}</div>
-                    <div class="types">Types de postes: ${Array.from(company.types).join(', ')}</div>
-                    <div class="members">
-                        <strong>Membres:</strong>
-                        <ul>
-                            ${Array.from(company.members).map(member => `
-                                <li>
-                                    ${member.name} - ${member.poste}
-                                    ${member.linkedin ? 
-                                        `<a href="${member.linkedin}" target="_blank">
-                                            <img src="../assets/linkedin.png" alt="LinkedIn" class="linkedin-icon"/>
-                                        </a>` 
-                                        : ''}
-                                </li>
-                            `).join('')}
-                        </ul>
-                    </div>
-                    ${company.contact ? 
-                        `<div class="contact">
-                            <strong>Contact:</strong> ${company.contact}
-                        </div>` 
-                        : ''}
-                </div>
-            `);
+            .bindPopup(createCompanyPopup(company));
 
         markers.addLayer(marker);
         markersLayer.addLayer(marker);
 
+        // Extend bounds with marker position
+        bounds.extend([company.lat, company.lon]);
+        hasMarkers = true;
+
+        // Add to company list
         document.getElementById('companyList').innerHTML += `
             <li class="company-item" data-lat="${company.lat}" data-lon="${company.lon}">
                 <h4>${company.name}</h4>
@@ -181,22 +166,55 @@ function addCompanyMarkersAndList(companies, filters = {}) {
         `;
     });
 
-    // Add click event to list items to center map on company
+    // Zoom to bounds if we have markers and filters are active
+    if (hasMarkers && (filters.stage || filters.entreprise || filters.ville)) {
+        map.fitBounds(bounds, {
+            padding: [50, 50],
+            maxZoom: 13,
+            animate: true,
+            duration: 1
+        });
+    } else if (!hasMarkers) {
+        // Reset to default view if no markers
+        map.setView([46.603354, 1.888334], 6);
+    }
+
+    // Update click handlers for list items
     document.querySelectorAll('.company-item').forEach(item => {
         item.addEventListener('click', () => {
             const lat = parseFloat(item.dataset.lat);
             const lon = parseFloat(item.dataset.lon);
-            map.setView([lat, lon], 13);
+            map.setView([lat, lon], 13, {
+                animate: true,
+                duration: 1
+            });
         });
     });
 }
 
+// Update the matchesFilters function to handle multiple employment types
 function matchesFilters(company, filters) {
-    const matchStage = !filters.stage || company.types.has(filters.stage);
+    const matchStage = !filters.stage || 
+        (filters.stage.includes(',') ? 
+            filters.stage.split(',').some(type => company.types.has(type)) : 
+            company.types.has(filters.stage));
     const matchEntreprise = !filters.entreprise || company.name === filters.entreprise;
     const matchVille = !filters.ville || company.ville === filters.ville;
 
     return matchStage && matchEntreprise && matchVille;
+}
+
+// Update filter options
+function setupFilters() {
+    const stageFilter = document.getElementById('stageFilter');
+    stageFilter.innerHTML = `
+        <option value="">Type de Stage/Emploi</option>
+        <option value="Stage_IG3">Stage IG3</option>
+        <option value="Stage_IG4">Stage IG4</option>
+        <option value="TFE">TFE</option>
+        <option value="Emploi_1,Emploi_2,Emploi_3">Autres emplois effectués</option>
+        <option value="Emploi_Actuel">Emploi Actuel</option>
+    `;
 }
 
 // Add this function to setup filters
@@ -249,9 +267,14 @@ function setupFilters(companies) {
         this.classList.add('rotating');
         setTimeout(() => this.classList.remove('rotating'), 500);
 
-        // Reset the map view
-        addCompanyMarkersAndList(companies);
-        map.setView([51.505, -0.09], 2);
+        // Reset the map view with animation
+        map.setView([46.603354, 1.888334], 6, {
+            animate: true,
+            duration: 1
+        });
+        
+        // Reset markers
+        addCompanyMarkersAndList(companies, {});
     });
 }
 
@@ -356,32 +379,46 @@ function setupCompanyFilters(data) {
     });
 }
 
-function createCompanyPopup(company, stats) {
+// Update the createCompanyPopup function
+function createCompanyPopup(company) {
     return `
-        <div class="member-popup">
+        <div class="company-popup">
             <div class="popup-header">
-                <div class="member-main">
-                    <h3>${company.name}</h3>
-                    <div class="member-company-info">
+                <h3>${company.name}</h3>
+                <div class="company-meta">
+                    <div class="company-location">
                         <i class="fas fa-location-dot"></i>
-                        <span>${company.city}</span>
+                        <span>${company.ville}</span>
+                    </div>
+                    <div class="company-count">
+                        <i class="fas fa-users"></i>
+                        <span>${company.members.size} membres</span>
                     </div>
                 </div>
             </div>
             <div class="popup-body">
-                <div class="info-grid">
-                    <div class="info-item">
-                        <i class="fas fa-user-tie"></i>
-                        <span>Membres Actuels: ${stats.currentMembers}</span>
+                ${company.contact ? `
+                    <div class="contact-section">
+                        <h4>Contact</h4>
+                        <p><i class="fas fa-address-card"></i> ${company.contact}</p>
                     </div>
-                    <div class="info-item">
-                        <i class="fas fa-history"></i>
-                        <span>Anciens Membres: ${stats.pastMembers}</span>
-                    </div>
-                    <div class="info-item total">
-                        <i class="fas fa-users"></i>
-                        <span>Total Membres: ${stats.totalMembers}</span>
-                    </div>
+                ` : ''}
+                <div class="members-section">
+                    <h4>Membres présents</h4>
+                    <ul>
+                        ${Array.from(company.members).map(member => `
+                            <li>
+                                <div class="member-info">
+                                    <span class="member-name">${member.name}</span>
+                                    ${member.linkedin ? `
+                                        <a href="${member.linkedin}" target="_blank" class="linkedin-link">
+                                            <i class="fab fa-linkedin"></i>
+                                        </a>
+                                    ` : ''}
+                                </div>
+                            </li>
+                        `).join('')}
+                    </ul>
                 </div>
             </div>
         </div>`;
@@ -394,34 +431,48 @@ function sortCompanies(companies) {
     });
 }
 
+// Update the stats calculation
 function updateCompanyStats(data) {
-    // Count unique companies
-    const companies = new Set(data.map(member => 
-        formatCompanyName(member.Entreprise)).filter(Boolean));
-    
-    // Count current employees
-    const currentEmployees = data.filter(member => 
-        member.Entreprise === member.Entreprise_Actuelle).length;
-    
-    // Count unique cities
-    const cities = new Set(data.map(member => 
-        formatCity(member['Adresse/Ville'])).filter(Boolean));
+    let totalCompanies = 0;
+    const uniqueCompanies = new Set();
+    const uniqueCities = new Set();
+    const members = new Set();
 
-    // Update DOM elements
-    const totalCompaniesElement = document.getElementById('totalCompanies');
-    const totalEmployeesElement = document.getElementById('totalEmployees');
-    const totalCitiesElement = document.getElementById('totalCities');
+    data.forEach(member => {
+        // Count companies from all positions
+        [
+            member['Entreprise stage IG3'],
+            member['Entreprise Stage IG4'],
+            member['Stage TFE'],
+            member['Entreprise 1'],
+            member['Entreprise 2'],
+            member['Entreprise 3'],
+            member['Entreprise Actuelle']
+        ].forEach(company => {
+            if (company) uniqueCompanies.add(company);
+        });
 
-    if (totalCompaniesElement) totalCompaniesElement.textContent = companies.size;
-    if (totalEmployeesElement) totalEmployeesElement.textContent = currentEmployees;
-    if (totalCitiesElement) totalCitiesElement.textContent = cities.size;
+        // Count unique cities
+        [
+            member['Ville Stage IG3'],
+            member['Ville Stage IG4'],
+            member['Ville Stage TFE'],
+            member['Ville Entreprise 1'],
+            member['Ville Entreprise 2'],
+            member['Ville Entreprise 3'],
+            member['Ville Entreprise Actuelle']
+        ].forEach(ville => {
+            if (ville) uniqueCities.add(ville);
+        });
 
-    // Debug log to verify counts
-    console.log('Company Stats Update:', {
-        companies: companies.size,
-        employees: currentEmployees,
-        cities: cities.size
+        // Count unique members
+        if (member['Email']) members.add(member['Email']);
     });
+
+    // Update DOM
+    document.getElementById('totalCompanies').textContent = uniqueCompanies.size;
+    document.getElementById('totalEmployees').textContent = members.size;
+    document.getElementById('totalCities').textContent = uniqueCities.size;
 }
 
 // Make sure to call updateCompanyStats in your data loading function

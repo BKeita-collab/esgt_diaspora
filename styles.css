@@ -754,7 +754,7 @@ footer {
 .custom-popup .leaflet-popup-content-wrapper {
     padding: 0;
     border-radius: 12px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
     overflow: hidden;
     max-width: 300px;
 }
@@ -892,6 +892,64 @@ footer {
 }
 
 /* Enhanced Popup Styles */
+.popup-header {
+    padding: 1.25rem;
+    border-bottom: 1px solid #e2e8f0;
+    background: linear-gradient(135deg, #1e40af, #3b82f6);
+    color: white;
+}
+
+.popup-header h3 {
+    font-size: 1.2rem;
+    font-weight: 600;
+    margin: 0;
+}
+
+.popup-body {
+    padding: 1.25rem;
+    background: white;
+    border-radius: 0 0 8px 8px;
+}
+
+.contact-info, .members-list {
+    margin-bottom: 1rem;
+}
+
+.contact-info h4, .members-list h4 {
+    font-size: 1rem;
+    font-weight: 600;
+    color: #1e40af;
+    margin-bottom: 0.5rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.members-list ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.members-list li {
+    padding: 0.5rem 0;
+    border-bottom: 1px solid #e2e8f0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.members-list li:last-child {
+    border-bottom: none;
+}
+
+@media (max-width: 768px) {
+    .leaflet-popup-content {
+        width: 280px !important;
+        margin: 0;
+    }
+}
+
 .popup-header {
     background: linear-gradient(135deg, #1e40af, #3b82f6);
     color: white;
@@ -1044,8 +1102,8 @@ footer {
 .leaflet-popup-content-wrapper {
     padding: 0;
     overflow: hidden;
-    border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
 }
 
 .leaflet-popup-content {
@@ -1596,7 +1654,8 @@ footer {
 .leaflet-popup-content-wrapper {
     padding: 0;
     overflow: hidden;
-    border-radius: 8px;
+    border-radius: 12px;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
 }
 
 .leaflet-popup-content {
@@ -1605,10 +1664,16 @@ footer {
 }
 
 .popup-header {
-    background: linear-gradient(135deg, #2563eb, #1d4ed8);
-    color: white;
-    padding: 1rem;
-    border-radius: 8px 8px 0 0;
+    padding: 1.25rem;
+    background: white;
+    border-bottom: 1px solid #e5e7eb;
+}
+
+.popup-header h3 {
+    font-size: 1.2rem;
+    color: #1e40af;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
 }
 
 .popup-body {
@@ -2163,4 +2228,227 @@ footer {
 
 #sidebar::-webkit-scrollbar-thumb:hover {
     background: #94a3b8;
+}
+
+/* Popup Styles */
+.leaflet-popup-content-wrapper {
+    padding: 0;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
+}
+
+.leaflet-popup-content {
+    margin: 0;
+    width: 300px !important;
+}
+
+.company-popup {
+    font-family: system-ui, -apple-system, sans-serif;
+}
+
+.popup-header {
+    padding: 1.25rem;
+    background: white;
+    border-bottom: 1px solid #e5e7eb;
+}
+
+.popup-header h3 {
+    font-size: 1.2rem;
+    color: #1e40af;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+}
+
+.company-meta {
+    display: flex;
+    gap: 1rem;
+    font-size: 0.9rem;
+    color: #6b7280;
+}
+
+.company-location, .company-count {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.popup-body {
+    padding: 1rem;
+    background: #fff;
+}
+
+.contact-section, .members-section {
+    margin-bottom: 1rem;
+}
+
+.contact-section h4, .members-section h4 {
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: #374151;
+    margin: 0 0 0.5rem 0;
+}
+
+.members-section ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    max-height: 200px;
+    overflow-y: auto;
+}
+
+.members-section li {
+    padding: 0.5rem;
+    border-bottom: 1px solid #f3f4f6;
+}
+
+.members-section li:last-child {
+    border-bottom: none;
+}
+
+.member-info {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.linkedin-link {
+    color: #0077b5;
+    text-decoration: none;
+}
+
+/* Mobile Responsiveness */
+@media (max-width: 768px) {
+    .leaflet-popup-content {
+        width: 260px !important;
+    }
+
+    .members-section ul {
+        max-height: 150px;
+    }
+}
+
+/* Bottom Section Refinements */
+.bottom-section {
+    background: white;
+    border-top: 1px solid #e5e7eb;
+    padding: 3rem 1.5rem;
+}
+
+.bottom-content {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: grid;
+    gap: 2rem;
+}
+
+@media (min-width: 768px) {
+    .bottom-content {
+        grid-template-columns: 1fr 2fr 1fr;
+    }
+}
+
+/* Add smooth transitions for map movements */
+.leaflet-fade-anim .leaflet-tile,.leaflet-fade-anim .leaflet-popup {
+    -webkit-transition: opacity 0.2s linear;
+    -moz-transition: opacity 0.2s linear;
+    -o-transition: opacity 0.2s linear;
+    transition: opacity 0.2s linear;
+}
+
+/* List Items Base Styles */
+.company-item, .member-item {
+    padding: 1.25rem;
+    background: white;
+    border: 1px solid #e5e7eb;
+    border-radius: 8px;
+    margin-bottom: 0.75rem;
+    transition: all 0.2s ease;
+}
+
+.company-item h4 {
+    font-size: 1.1rem;
+    color: #1e40af;
+    margin-bottom: 0.75rem;
+}
+
+.company-location, .company-members-count {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin: 0.5rem 0;
+    font-size: 0.95rem;
+}
+
+.company-types {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin: 0.75rem 0;
+}
+
+.company-type-tag {
+    background: #f1f5f9;
+    padding: 0.35rem 0.75rem;
+    border-radius: 1rem;
+    font-size: 0.9rem;
+    color: #1e40af;
+}
+
+/* Mobile Optimizations */
+@media (max-width: 768px) {
+    #sidebar {
+        height: 450px; /* Increased height for mobile */
+        padding: 1rem;
+    }
+
+    .company-item, .member-item {
+        padding: 1.5rem; /* Larger padding on mobile */
+        margin-bottom: 1rem;
+    }
+
+    .company-item h4 {
+        font-size: 1.2rem; /* Larger title on mobile */
+    }
+
+    .company-location, .company-members-count {
+        font-size: 1.1rem; /* Larger text on mobile */
+        margin: 0.75rem 0;
+    }
+
+    .company-type-tag {
+        padding: 0.5rem 1rem; /* Larger tags on mobile */
+        font-size: 1rem;
+    }
+
+    /* Improve touch targets */
+    .company-item, .member-item {
+        min-height: 120px;
+        cursor: pointer;
+        -webkit-tap-highlight-color: transparent;
+    }
+
+    /* Add more spacing between items */
+    #companyList, #memberList {
+        padding: 1rem;
+        gap: 1rem;
+    }
+
+    /* Make scrolling smoother on mobile */
+    #sidebar {
+        -webkit-overflow-scrolling: touch;
+        overflow-y: auto;
+    }
+}
+
+/* Tablet Optimizations */
+@media (min-width: 769px) and (max-width: 1024px) {
+    #sidebar {
+        width: 350px;
+        height: 100%;
+    }
+
+    .company-item, .member-item {
+        padding: 1.25rem;
+    }
 }
