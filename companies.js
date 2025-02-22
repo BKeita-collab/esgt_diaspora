@@ -1,6 +1,7 @@
 document.documentElement.classList.add('ontouchstart' in window ? 'touch' : 'no-touch');
 
-const sheetId = "1MfGjhr7cJbvxpPZ9H5kYzrvjj73-MujS_FgwKuUHxmU";
+//https://docs.google.com/spreadsheets/d/1vFkuYxiSxJYIno_2OVuqcLQxUJuf4I4eX7uIxK7a5rY/edit?usp=sharing
+const sheetId = "1vFkuYxiSxJYIno_2OVuqcLQxUJuf4I4eX7uIxK7a5rY";
 const sheetName = encodeURIComponent("BDD_Entreprises");
 const sheetURL = `https://docs.google.com/spreadsheets/d/${sheetId}/gviz/tq?tqx=out:csv&sheet=${sheetName}`;
 console.log('Sheet URL:', sheetURL); // Debug log

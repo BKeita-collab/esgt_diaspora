@@ -375,39 +375,39 @@ style.textContent = `
 `;
 document.head.appendChild(style);
 
-// Update member popup to show only year
-function formatPromotion(yearString) {
-    if (!yearString) return '';
-    // Extract only the year using regex
-    const yearMatch = yearString.match(/\d{4}/);
-    return yearMatch ? yearMatch[0] : yearString;
-}
-
 function createMemberPopup(member) {
-    const promoYear = formatPromotion(member['Année de diplomation']);
     return `
         <div class="member-popup">
             <div class="popup-header">
-                <h3>${member.Nom} ${member.Prénom}</h3>
-                <div class="member-info">
-                    <i class="fas fa-building"></i>
-                    <span>${member['Entreprise Actuelle'] || 'Non renseigné'}</span>
+                <div class="member-main">
+                    <h3>${member.Nom} ${member.Prénom}</h3>
+                    <span class="member-title">${member['Poste Occupé']}</span>
                 </div>
-                <div class="member-promo">
-                    <i class="fas fa-graduation-cap"></i>
-                    <span>Promotion ${promoYear}</span>
+                <div class="member-company-info">
+                    <i class="fas fa-building"></i>
+                    <span>${member.Entreprise}</span>
                 </div>
             </div>
             <div class="popup-body">
                 <div class="info-grid">
                     <div class="info-item">
-                        <i class="fas fa-briefcase"></i>
-                        <span>${member['Poste Actuel'] || 'Non renseigné'}</span>
+                        <i class="fas fa-location-dot"></i>
+                        <span>${member['Adresse/Ville']}</span>
                     </div>
                     <div class="info-item">
-                        <i class="fas fa-map-marker-alt"></i>
-                        <span>${member['Adresse/Ville'] || 'Non renseigné'}</span>
+                        <i class="fas fa-graduation-cap"></i>
+                        <span>Promotion ${formatGraduationYear(member['Année de diplomation'])}</span>
                     </div>
+                </div>
+                <div class="contact-links">
+                    <a href="mailto:${member['Adresse e-mail']}" class="contact-button email">
+                        <i class="fas fa-envelope"></i>
+                        <span>Email</span>
+                    </a>
+                    <a href="${member['Lien LinkedIn']}" target="_blank" class="contact-button linkedin">
+                        <i class="fab fa-linkedin"></i>
+                        <span>LinkedIn</span>
+                    </a>
                 </div>
             </div>
         </div>`;
